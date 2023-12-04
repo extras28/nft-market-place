@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// style
+// bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+// keen
+import 'assets/styles/keen/theme01/style.bundle.css';
+import 'assets/styles/keen/theme01/plugins.bundle.css';
+// app custom style
+import 'assets/styles/app.style.scss';
+import './index.css';
+// i18
+import { I18nextProvider } from 'react-i18next';
+import i18n from 'i18n';
+// redux
+import { Provider } from 'react-redux';
+import store from 'app/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <I18nextProvider i18n={i18n}>
+        <App />
+      </I18nextProvider>
+    </Provider>
   </React.StrictMode>
 );
 
