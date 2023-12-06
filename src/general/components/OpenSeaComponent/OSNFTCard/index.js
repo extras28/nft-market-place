@@ -12,14 +12,14 @@ function OSNFTCard(props) {
   const { t } = useTranslation();
 
   return (
-    <div className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-2 mb-8">
+    <div className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-8">
       <div className="card-flyer">
         <div className="text-box position-relative">
           <div className="image-box">
             <img src={image} alt="" />
           </div>
-          <div className="p-3">
-            <h5 className="card-title">{title}</h5>
+          <div className="p-6">
+            <h6 className="font-weight-bolder">{title}</h6>
 
             <span className="d-flex align-items-center">
               <i className="fab fa-ethereum mr-4"></i>

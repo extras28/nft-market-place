@@ -67,6 +67,36 @@ function DashboardHomeScreen(props) {
         price={0.085}
         title="Sprotoanimal #1517"
       />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2018/03/29/10/21/eagle-3271903_640.jpg"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2018/03/27/11/20/dog-3265713_640.jpg"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2022/03/28/01/23/cat-7096366_640.png"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2018/04/25/18/08/small-poly-3350168_640.jpg"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2019/12/25/18/19/colorful-4719046_640.jpg"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
+      <OSNFTCard
+        image="https://cdn.pixabay.com/photo/2018/03/14/15/26/polygon-3225500_640.jpg"
+        price={0.085}
+        title="Sprotoanimal #1517"
+      />
     </div>
   );
 }
