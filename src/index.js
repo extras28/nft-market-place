@@ -18,13 +18,22 @@ import i18n from 'i18n';
 // redux
 import { Provider } from 'react-redux';
 import store from 'app/store';
+import { MetaMaskProvider } from '@metamask/sdk-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <App />
+        <MetaMaskProvider
+          sdkOptions={{
+            dappMetadata: {
+              name: 'Demo UI',
+            },
+          }}
+        >
+          <App />
+        </MetaMaskProvider>
       </I18nextProvider>
     </Provider>
   </React.StrictMode>

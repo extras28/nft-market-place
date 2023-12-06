@@ -2,66 +2,69 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 KeenSearchBarNoFormik.propTypes = {
-    name: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 
-    type: PropTypes.string,
-    placeholder: PropTypes.string,
-    disabled: PropTypes.bool,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
 
-    className: PropTypes.string,
-    onSubmit: PropTypes.func,
+  className: PropTypes.string,
+  onSubmit: PropTypes.func,
 
-    value: PropTypes.string,
+  value: PropTypes.string,
 };
 
 KeenSearchBarNoFormik.defaultProps = {
-    type: "text",
-    placeholder: "",
-    disabled: false,
-    className: '',
-    onSubmit: null,
-    value: '',
+  type: 'text',
+  placeholder: '',
+  disabled: false,
+  className: '',
+  onSubmit: null,
+  value: '',
 };
 
 function KeenSearchBarNoFormik(props) {
-    // MARK: --- Params ---
-    const { type, name, placeholder, disabled, className, onSubmit, value } = props;
-    const typingTimeoutRef = useRef(null);
-    const [text, setText] = useState(value);
+  // MARK: --- Params ---
+  const { type, name, placeholder, disabled, className, onSubmit, value } = props;
+  const typingTimeoutRef = useRef(null);
+  const [text, setText] = useState(value);
 
-    // MARK: --- Functions ---
-    function handleTextChanged(e) {
-        const value = e.target.value;
-        setText(value);
+  // MARK: --- Functions ---
+  function handleTextChanged(e) {
+    const value = e.target.value;
+    setText(value);
 
-        if (!onSubmit) {
-            return;
-        }
-
-        if (typingTimeoutRef.current) {
-            clearTimeout(typingTimeoutRef.current);
-        }
-
-        typingTimeoutRef.current = setTimeout(() => {
-            onSubmit(value);
-        }, 500);
+    if (!onSubmit) {
+      return;
     }
 
-    return (
-        <div className={`input-icon mr-2 ${className}`}>
-            <input
-                id={name}
-                type={type}
-                className="form-control"
-                placeholder={placeholder}
-                value={text}
-                onChange={handleTextChanged}
-            />
-            <span>
-                <i className="fal fa-search text-muted"></i>
-            </span>
-        </div>
-    );
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      onSubmit(value);
+    }, 500);
+  }
+
+  return (
+    <div
+      style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)' }}
+      className={`input-icon rounded mr-2 ${className}`}
+    >
+      <input
+        id={name}
+        type={type}
+        className="form-control bg-transparent border-0 rounded text-white"
+        placeholder={placeholder}
+        value={text}
+        onChange={handleTextChanged}
+      />
+      <span>
+        <i className="fal fa-search text-muted"></i>
+      </span>
+    </div>
+  );
 }
 
 export default KeenSearchBarNoFormik;

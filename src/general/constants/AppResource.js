@@ -167,7 +167,8 @@ const AppResource = {
     },
 
     // OpenSea app images
-    logo: require('assets/images/OpenSea/opensea-logo.svg'),
+    logo: require('assets/icons/logo.png'),
+    logoWithText: require('assets/icons/logo_with_text.png'),
   },
 
   // colors

@@ -1,4 +1,4 @@
-import 'assets/styles/keen/theme01/layout/header/base/light.css';
+// import 'assets/styles/keen/theme01/layout/header/base/light.css';
 import 'assets/styles/keen/theme01/layout/header/menu/dark.css';
 import KTBSDropdown, {
   KTBSDropdownAlignments,
@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import './style.scss';
+import KeenSearchBarNoFormik from 'general/components/OtherKeenComponents/KeenSearchBarNoFormik';
 
 // const menuItems = [
 //     {
@@ -146,7 +147,11 @@ function KT01Header(props) {
   }, []);
 
   return (
-    <div id="kt_header" className="header header-fixed">
+    <div
+      id="kt_header"
+      className="header header-fixed"
+      style={{ backgroundColor: 'rgb(18, 18, 18)' }}
+    >
       <div className="container-fluid d-flex align-items-stretch justify-content-between">
         {/* Header menu wrapper */}
         <div id="kt_header_menu_wrapper" className="header-menu-wrapper header-menu-wrapper-left">
@@ -160,9 +165,10 @@ function KT01Header(props) {
               {moment().format('DD/MM/YYYY')}{' '}
               <small className="text-dark mt-1">{_.capitalize(moment().format('dddd'))}</small>
             </h4> */}
-            <div className="h-40px w-40px">
-              <img src={AppResource.images.logo} />
+            <div className="d-flex justify-content-center align-items-center">
+              <img className="h-60px w-150px" src={AppResource.images.logoWithText} />
             </div>
+
             {/* menu nav */}
             <ul className="menu-nav">
               {menuItems.map((item, index) => {
@@ -269,7 +275,9 @@ function KT01Header(props) {
             </ul>
           </div>
         </div>
-
+        <div className="d-flex justify-content-center align-items-center rounded min-w-350px">
+          <KeenSearchBarNoFormik className="w-100" placeholder={t('Search')} />
+        </div>
         {/* Top bar */}
         <div className="topbar">
           {/* search */}
