@@ -3,6 +3,7 @@ import Empty from 'general/components/Empty';
 import AppResource from 'general/constants/AppResource';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import Dashboard from './features/Dashboard';
 
 function OpenSea(props) {
   // MARK: --- Props ---
@@ -10,10 +11,10 @@ function OpenSea(props) {
 
   return (
     <KT01BaseLayout>
-      <div id="opensea-container" className="container min-h-100">
+      <div id="opensea-container" className="container-fluid container-xl min-h-100">
         <Routes>
-          <Route path="/" element={<Navigate to="package" />} />
-          <Route path="package/*" element={<>Package</>} />
+          {/* <Route path="/" element={<Navigate to="opensea" />} /> */}
+          <Route path="/" element={<Dashboard />} />
 
           <Route
             path="*"

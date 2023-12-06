@@ -2,26 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 /* Custom fonts */
 
-@import "./assets/fontawesome/css/all.css";
+@import './assets/fontawesome/css/all.css';
 /* fontawesome */
 
-@import "./assets/keenthemes-icons/ki.css";
+@import './assets/keenthemes-icons/ki.css';
 /* ki */
 
-@import "~perfect-scrollbar";
+@import '~perfect-scrollbar';
 /* perfect scrollbar */
 
-html, body {
+html,
+body {
   /* font size of root element (rem) */
   font-size: 13px !important;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-width: 320px;
+  color: white !important;
 }
 
 code {

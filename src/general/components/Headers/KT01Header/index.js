@@ -149,10 +149,10 @@ function KT01Header(props) {
   return (
     <div
       id="kt_header"
-      className="header header-fixed"
+      className="header header-fixed border-bottom"
       style={{ backgroundColor: 'rgb(18, 18, 18)' }}
     >
-      <div className="container-fluid d-flex align-items-stretch justify-content-between">
+      <div className="container-fluid container-xl d-flex align-items-stretch justify-content-between">
         {/* Header menu wrapper */}
         <div id="kt_header_menu_wrapper" className="header-menu-wrapper header-menu-wrapper-left">
           {/* header menu */}
