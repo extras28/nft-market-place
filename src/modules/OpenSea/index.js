@@ -4,6 +4,7 @@ import AppResource from 'general/constants/AppResource';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from './features/Dashboard';
+import Minting from './features/Minting';
 
 function OpenSea(props) {
   // MARK: --- Props ---
@@ -13,8 +14,8 @@ function OpenSea(props) {
     <KT01BaseLayout>
       <div id="opensea-container" className="container-fluid container-xl min-h-100">
         <Routes>
-          {/* <Route path="/" element={<Navigate to="opensea" />} /> */}
           <Route path="/" element={<Dashboard />} />
+          <Route path="/mint" element={<Minting />} />
 
           <Route
             path="*"

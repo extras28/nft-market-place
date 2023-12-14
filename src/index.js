@@ -1,39 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 // style
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 // keen
-import 'assets/styles/keen/theme01/style.bundle.css';
 import 'assets/styles/keen/theme01/plugins.bundle.css';
+import 'assets/styles/keen/theme01/style.bundle.css';
 // app custom style
 import 'assets/styles/app.style.scss';
 import './index.css';
 // i18
-import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18n';
+import { I18nextProvider } from 'react-i18next';
 // redux
-import { Provider } from 'react-redux';
+import { MetaMaskUIProvider } from '@metamask/sdk-react-ui';
 import store from 'app/store';
-import { MetaMaskProvider } from '@metamask/sdk-react';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <MetaMaskProvider
+        <MetaMaskUIProvider
           sdkOptions={{
             dappMetadata: {
-              name: 'Demo UI',
+              name: 'Demo UI React App',
             },
           }}
         >
           <App />
-        </MetaMaskProvider>
+        </MetaMaskUIProvider>
       </I18nextProvider>
     </Provider>
   </React.StrictMode>
