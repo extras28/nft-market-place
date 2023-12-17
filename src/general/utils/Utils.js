@@ -165,39 +165,35 @@ const Utils = {
 
   sendTransaction: async (value) => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const rpc = new ethers.providers.JsonRpcProvider('https://eth-sepolia.public.blastapi.io');
-    const gasPrice = rpc.getGasPrice();
-    const nonce = await rpc.getTransactionCount(accounts[0], 'latest');
+    const rpcProvider = new ethers.providers.JsonRpcProvider(
+      'https://eth-sepolia.public.blastapi.io'
+    );
+    const gasPrice = await rpcProvider.getGasPrice();
     let iface = new ethers.utils.Interface(abi);
     const data = iface.encodeFunctionData('mint', [
       'QmWDsUfEa8iXZtoeSz6jF6wdEYxhHWBQB7V9tpXAGxHNqr',
     ]);
-
-    console.log({
-      from: accounts[0], // The user's active address.
-      to: AppConfigs.IndividualNFTs,
-      value: '0x00',
-      gasPrice,
-      gasLimit: ethers.utils.hexlify(100000),
-      nonce,
-      data,
-    });
-
-    // window.ethereum.request({
-    //   method: 'eth_sendTransaction',
-    //   // The following sends an EIP-1559 transaction. Legacy transactions are also supported.
-    //   params: [
-    //     {
-    //       from: accounts[0], // The user's active address.
-    //       to: AppConfigs.IndividualNFTs,
-    //       value: '0x00',
-    //       gasPrice,
-    //       gasLimit: ethers.utils.hexlify(100000),
-    //       nonce,
-    //       data,
-    //     },
-    //   ],
-    // });
+    const tx = [
+      {
+        from: accounts[0],
+        gasLimit: ethers.utils.hexlify(300000),
+        gasPrice: gasPrice.toHexString(),
+        to: AppConfigs.IndividualNFTs,
+        value,
+        data,
+      },
+    ];
+    const transactionHash = await window.ethereum
+      .request({
+        method: 'eth_sendTransaction',
+        params: tx,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 

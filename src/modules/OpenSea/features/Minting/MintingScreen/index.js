@@ -76,18 +76,18 @@ function MintingScreen(props) {
 
   async function handleSubmit(values) {
     try {
-      // Utils.sendTransaction('0x00');
+      Utils.sendTransaction('0x00');
 
-      const formData = new FormData();
-      formData.append('file', file);
-      let params = values;
-      formData.append('pinataMetadata', JSON.stringify(params));
-      const pinataOptions = JSON.stringify({
-        cidVersion: 0,
-      });
-      formData.append('pinataOptions', pinataOptions);
-      const pinataRes = await uploadToPinata(formData);
-      const mintedNFT = await mintingNFT(pinataRes.IpfsHash);
+      // const formData = new FormData();
+      // formData.append('file', file);
+      // let params = values;
+      // formData.append('pinataMetadata', JSON.stringify(params));
+      // const pinataOptions = JSON.stringify({
+      //   cidVersion: 0,
+      // });
+      // formData.append('pinataOptions', pinataOptions);
+      // const pinataRes = await uploadToPinata(formData);
+      // const mintedNFT = await mintingNFT(pinataRes.IpfsHash);
       // console.log(`https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`);
     } catch (error) {
       console.log(`${sTag} Submit error: ${error.message}`);
