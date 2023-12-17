@@ -8,11 +8,11 @@ OSNFTCard.propTypes = {};
 
 function OSNFTCard(props) {
   // MARK --- Params ---
-  const { price, image, title } = props;
+  const { price, image, title, onClick } = props;
   const { t } = useTranslation();
 
   return (
-    <div className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-8">
+    <div className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-8" onClick={onClick}>
       <div className="card-flyer">
         <div className="text-box position-relative">
           <div className="image-box">
