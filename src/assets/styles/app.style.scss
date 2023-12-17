@@ -284,3 +284,15 @@
 .card {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
+
+.form-control {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.form-control:focus {
+  border-color: white;
+}
+
+.btn.btn-outline-secondary i {
+  color: white;
+}

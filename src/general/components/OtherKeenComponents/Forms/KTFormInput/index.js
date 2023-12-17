@@ -467,7 +467,7 @@ function KTFormInput(props) {
             );
           })}
         <input
-          className={`
+          className={`  bg-transparent text-white
                         form-control 
                         ${additionalInputClassName}
                         ${solidBackground ? 'form-control-solid' : ''}

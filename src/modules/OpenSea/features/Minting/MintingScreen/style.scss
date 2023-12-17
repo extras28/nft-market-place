@@ -1,0 +1,8 @@
+.MintingScreen {
+  .MintingScreen_Image_Container:hover > div {
+    display: block;
+  }
+  .MintingScreen_Image_Container:not(:hover) > div {
+    display: none;
+  }
+}

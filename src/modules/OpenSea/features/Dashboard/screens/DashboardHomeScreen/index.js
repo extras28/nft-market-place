@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
 import * as typechain from 'nft-marketplace-project';
-import { ethers } from 'ethers';
 
 DashboardHomeScreen.propTypes = {};
 const testData = [
@@ -106,21 +105,21 @@ function DashboardHomeScreen(props) {
   const [listNFT, setListNFT] = useState([]);
 
   // MARK --- Functions ---
-  async function getListNFT() {
-    try {
-      const web3provider = new ethers.BrowserProvider(window.ethereum);
-      const market = typechain.NFTMarketplace__factory.connect(NFTMarketplace, web3provider);
-      const NFTList = await market.getListedNFTs();
+  // async function getListNFT() {
+  //   try {
+  //     const web3provider = new ethers.BrowserProvider(window.ethereum);
+  //     const market = typechain.NFTMarketplace__factory.connect(NFTMarketplace, web3provider);
+  //     const NFTList = await market.getListedNFTs();
 
-      console.log(NFTList);
-    } catch (error) {
-      console.log(`${sTag} get list NFT error: ${error.message}`);
-    }
-  }
+  //     console.log(NFTList);
+  //   } catch (error) {
+  //     console.log(`${sTag} get list NFT error: ${error.message}`);
+  //   }
+  // }
 
-  useEffect(() => {
-    getListNFT();
-  }, []);
+  // useEffect(() => {
+  //   getListNFT();
+  // }, []);
   return (
     <div className="row ">
       {testData.map((item, index) => (
