@@ -3,64 +3,61 @@ import { ethers } from 'ethers';
 
 import abiMarketPlace from 'assets/abiMarketPlace.json';
 import abiNFTContract from 'assets/abi.json'
+import AppConfigs from 'general/constants/AppConfigs';
 
-const nftAddress = "0x92c1E2D41A35b24CCF020f76f94784c41E0fF257"
+const NFTcontractAddress = "0x430cb89B331a4A719E661E94EfEA72ac37f902b6"
+const nftMarketPlaceAddress = "0xec5808E2d86293c6b29f0eD4E9a77c8EfA28fEa8"
+const LISTING_FEE = 100000000000000n
+
 
 export default function index() {
 
     const getAllNFTs = async () => {
-        const rpc = new ethers.providers.JsonRpcProvider("https://eth-sepolia.public.blastapi.io");
-        const contract = new ethers.Contract(nftAddress, abiMarketPlace, rpc);
+        const rpc = new ethers.providers.JsonRpcProvider(AppConfigs.rpcHttp);
+        const contract = new ethers.Contract(nftMarketPlaceAddress, abiMarketPlace, rpc);
         const list = await contract.getListedNFTs();
-        console.log(list);
+        console.log(list); `                                                                             `
     }
 
     const getMyNFTs = async () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const rpc = new ethers.providers.JsonRpcProvider(AppConfigs.rpcHttp);
+        const contract = new ethers.Contract(nftMarketPlaceAddress, abiMarketPlace, rpc);
+        const myNFTs = await contract.getMyNFTs(accounts[0]);
+        console.log(myNFTs);
+    }
 
-        const rpc = new ethers.providers.JsonRpcProvider("https://eth-sepolia.public.blastapi.io");
-        const contract = new ethers.Contract(nftAddress, abiMarketPlace, rpc);
-        let iface = new ethers.utils.Interface(abiMarketPlace);
-        const data = iface.encodeFunctionData('getMyListNFTs', [
-        ]);
-        const tx = [
-            {
-                from: accounts[0],
-                to: nftAddress,
-                data,
-            }
-        ]
-        const encodedData = await window.ethereum
-            .request({
-                method: 'eth_call',
-                params: tx,
-            })
-            .then((result) => {
-                console.log(result);
-                console.log(iface.decodeFunctionData('getMyListNFTs', result));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        // const list = await contract.getMyListNFTs();
+    const getMyListNFTs = async () => {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const rpc = new ethers.providers.JsonRpcProvider(AppConfigs.rpcHttp);
+        const contract = new ethers.Contract(nftMarketPlaceAddress, abiMarketPlace, rpc);
+        const myNFTs = await contract.getMyListNFTs(accounts[0]);
+        console.log(myNFTs);
     }
 
     const viewNFT = async (nftContractAddress, tokenID) => {
-        const rpc = new ethers.providers.JsonRpcProvider("https://eth-sepolia.public.blastapi.io");
+        const rpc = new ethers.providers.JsonRpcProvider(AppConfigs.rpcHttp);
         const contract = new ethers.Contract(nftContractAddress, abiNFTContract, rpc);
         const NFT_URI = await contract.tokenURI(ethers.utils.hexlify(tokenID));
         console.log(NFT_URI);
     }
 
-    const listNFT = async (nftContractAddress, tokenID, price) => {
-        console.log(ethers.utils.hexlify(tokenID));
-        console.log(ethers.utils.hexlify(price));
+    const listNFT = async (to, tokenID, price) => {
         let iface = new ethers.utils.Interface(abiMarketPlace);
         const data = iface.encodeFunctionData('listNFT', [
-            nftContractAddress, ethers.utils.hexlify(tokenID), ethers.utils.hexlify(price),
+            NFTcontractAddress, ethers.utils.hexlify(tokenID), ethers.utils.hexlify(price),
         ]);
         console.log(data);
-        sendRawTransaction(nftContractAddress, data, ethers.utils.hexlify(100000000000000n))
+        sendRawTransaction(to, data, ethers.utils.hexlify(LISTING_FEE))
+    }
+
+    const resellNFT = async (to, tokenID, price) => {
+        let iface = new ethers.utils.Interface(abiMarketPlace);
+        const data = iface.encodeFunctionData('resellNft', [
+            NFTcontractAddress, ethers.utils.hexlify(tokenID), ethers.utils.hexlify(price),
+        ]);
+        console.log(data);
+        sendRawTransaction(to, data, ethers.utils.hexlify(LISTING_FEE))
     }
 
     const mintNFT = async (nftContractAddress, tokenURI) => {
@@ -72,9 +69,18 @@ export default function index() {
         sendRawTransaction(nftContractAddress, data, ethers.utils.hexlify(0))
     }
 
+    const buyNFT = async (nftContractAddress, tokenID, price) => {
+        let iface = new ethers.utils.Interface(abiMarketPlace);
+        const data = iface.encodeFunctionData('buyNFT', [
+            nftContractAddress, ethers.utils.hexlify(tokenID),
+        ]);
+        console.log(ethers.utils.hexlify(price));
+        sendRawTransaction(nftMarketPlaceAddress, data, ethers.utils.hexlify(price))
+    }
+
     const sendRawTransaction = async (to, data, value) => {
         const rpcProvider = new ethers.providers.JsonRpcProvider(
-            'https://eth-sepolia.public.blastapi.io'
+            AppConfigs.rpcHttp
         );
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const gasPrice = await rpcProvider.getGasPrice();
@@ -89,7 +95,7 @@ export default function index() {
                 data,
             },
         ];
-        const transactionHash = await window.ethereum
+        await window.ethereum
             .request({
                 method: 'eth_sendTransaction',
                 params: tx,
@@ -107,27 +113,44 @@ export default function index() {
         <div>
             <div>
                 <button onClick={getAllNFTs}>
-                    List All NFT
+                    getAllNFTs
                 </button>
             </div>
             <div>
                 <button onClick={getMyNFTs}>
-                    List My NFT
+                    getMyNFTs
                 </button>
             </div>
             <div>
-                <button onClick={() => viewNFT("0x1Fe3A78B9eD952Bff67a7267B4DeD000B3Db21D9", 1)}>
-                    View URI
+                <button onClick={getMyListNFTs}>
+                    getMyListNFTs
+                </button>
+            </div>
+
+            <div>
+                <button onClick={() => viewNFT(NFTcontractAddress, 1)}>
+                    viewNFT
                 </button>
             </div>
             <div>
-                <button onClick={() => listNFT("0x1Fe3A78B9eD952Bff67a7267B4DeD000B3Db21D9", 1, 1000000n)}>List NFT</button>
+                <button onClick={() => listNFT(nftMarketPlaceAddress, 1, 1000000n)}>listNFT</button>
             </div>
             <div>
-                <button onClick={() => mintNFT("0x1Fe3A78B9eD952Bff67a7267B4DeD000B3Db21D9", "QmPf9ac1zRbdYgbEsZXmT3bbVG7MtEhzjqUG6yTBU4uwvo")}>
+                <button onClick={() => mintNFT(NFTcontractAddress, "QmPf9ac1zRbdYgbEsZXmT3bbVG7MtEhzjqUG6yTBU4uwvo")}>
                     Mint NFT
                 </button>
             </div>
+            <div>
+                <button onClick={() => buyNFT(NFTcontractAddress, 1, 1000000n)}>
+                    Buy NFT
+                </button>
+            </div>
+            <div>
+                <button onClick={() => resellNFT(nftMarketPlaceAddress, 1, 1000000n)}>
+                    resell NFT
+                </button>
+            </div>
+
         </div>
     )
 }
