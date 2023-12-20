@@ -62,6 +62,7 @@ function MintingScreen(props) {
 
   async function mintingNFT(cid) {
     try {
+      debugger;
       const web3provider = new ethers.providers.Web3Provider(window.ethereum);
       const individualContract = typechain.IndividualNFTs__factory.connect(
         AppConfigs.IndividualNFTs,
@@ -76,19 +77,23 @@ function MintingScreen(props) {
 
   async function handleSubmit(values) {
     try {
-      Utils.sendTransaction('0x00');
+      const formData = new FormData();
+      formData.append('file', file);
+      let params = values;
+      formData.append('pinataMetadata', JSON.stringify(params));
+      const pinataOptions = JSON.stringify({
+        cidVersion: 0,
+      });
+      formData.append('pinataOptions', pinataOptions);
 
-      // const formData = new FormData();
-      // formData.append('file', file);
-      // let params = values;
-      // formData.append('pinataMetadata', JSON.stringify(params));
-      // const pinataOptions = JSON.stringify({
-      //   cidVersion: 0,
-      // });
-      // formData.append('pinataOptions', pinataOptions);
-      // const pinataRes = await uploadToPinata(formData);
-      // const mintedNFT = await mintingNFT(pinataRes.IpfsHash);
-      // console.log(`https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`);
+      // upload to ipfs
+      const pinataRes = await uploadToPinata(formData);
+
+      // mint nft
+      const mintedNFT = await mintingNFT(pinataRes.IpfsHash);
+
+      console.log(mintedNFT);
+      // Utils.sendTransaction('0x00', pinataRes.IpfsHash);
     } catch (error) {
       console.log(`${sTag} Submit error: ${error.message}`);
     }

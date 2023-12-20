@@ -163,16 +163,14 @@ const Utils = {
    */
   getTheNFTMetadataIPFSUrl: (cid) => `https://gateway.pinata.cloud/ipfs/${cid}`,
 
-  sendTransaction: async (value) => {
+  sendTransaction: async (value, cid) => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const rpcProvider = new ethers.providers.JsonRpcProvider(
       'https://eth-sepolia.public.blastapi.io'
     );
     const gasPrice = await rpcProvider.getGasPrice();
     let iface = new ethers.utils.Interface(abi);
-    const data = iface.encodeFunctionData('mint', [
-      'QmWDsUfEa8iXZtoeSz6jF6wdEYxhHWBQB7V9tpXAGxHNqr',
-    ]);
+    const data = iface.encodeFunctionData('mint', [cid]);
     const tx = [
       {
         from: accounts[0],

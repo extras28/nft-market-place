@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
 import * as typechain from 'nft-marketplace-project';
+import { ethers } from 'ethers';
 
 DashboardHomeScreen.propTypes = {};
 const testData = [
@@ -100,28 +101,28 @@ const testData = [
 const sTag = '[DashboardHomeScreen]';
 function DashboardHomeScreen(props) {
   //MARK --- Patams ---
-  const NFTMarketplace = '0x92c1E2D41A35b24CCF020f76f94784c41E0fF257';
+  const NFTMarketplace = '0x2a9860BD364761Dfa8410FA08917D0FFA8A8D4B5';
   const IndividualNFTs = '0x1Fe3A78B9eD952Bff67a7267B4DeD000B3Db21D9';
   const [listNFT, setListNFT] = useState([]);
 
   // MARK --- Functions ---
-  // async function getListNFT() {
-  //   try {
-  //     const web3provider = new ethers.BrowserProvider(window.ethereum);
-  //     const market = typechain.NFTMarketplace__factory.connect(NFTMarketplace, web3provider);
-  //     const NFTList = await market.getListedNFTs();
+  async function listingNFT() {
+    try {
+      const web3provider = new ethers.providers.Web3Provider(window.ethereum);
+      const market = typechain.NFTMarketplace__factory.connect(NFTMarketplace, web3provider);
+      const NFTList = await market.getListedNFTs();
 
-  //     console.log(NFTList);
-  //   } catch (error) {
-  //     console.log(`${sTag} get list NFT error: ${error.message}`);
-  //   }
-  // }
+      console.log(JSON.parse(JSON.stringify(NFTList)));
+    } catch (error) {
+      console.log(`${sTag} get list NFT error: ${error.message}`);
+    }
+  }
 
-  // useEffect(() => {
-  //   getListNFT();
-  // }, []);
+  useEffect(() => {
+    listingNFT();
+  }, []);
   return (
-    <div className="row ">
+    <div className="row">
       {testData.map((item, index) => (
         <OSNFTCard key={index} image={item.image} price={item.price} title={item.title} />
       ))}
