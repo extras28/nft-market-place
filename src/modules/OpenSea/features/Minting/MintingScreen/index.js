@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { FileUploader } from 'react-drag-drop-files';
+import nftAddressContractAbi from 'assets/abi.json';
+import axios from 'axios';
+import { ethers } from 'ethers';
 import { FastField, Formik } from 'formik';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
 import KTFormGroup from 'general/components/OtherKeenComponents/Forms/KTFormGroup';
 import KTFormInput, {
   KTFormInputType,
 } from 'general/components/OtherKeenComponents/Forms/KTFormInput';
-import _ from 'lodash';
 import KTFormTextArea from 'general/components/OtherKeenComponents/Forms/KTFormTextArea';
-import './style.scss';
-import axios from 'axios';
 import AppConfigs from 'general/constants/AppConfigs';
-import * as typechain from 'nft-marketplace-project';
-import Utils from 'general/utils/Utils';
-import { ethers } from 'ethers';
-// import { ethers } from 'ethers';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
+import { FileUploader } from 'react-drag-drop-files';
+import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
+import './style.scss';
+import TransactionHelper from 'general/helpers/TransactionHelper';
 
 MintingScreen.propTypes = {};
 
@@ -62,14 +60,14 @@ function MintingScreen(props) {
 
   async function mintingNFT(cid) {
     try {
-      debugger;
-      const web3provider = new ethers.providers.Web3Provider(window.ethereum);
-      const individualContract = typechain.IndividualNFTs__factory.connect(
-        AppConfigs.IndividualNFTs,
-        web3provider
+      let iface = new ethers.utils.Interface(nftAddressContractAbi);
+      const data = iface.encodeFunctionData('mint', [cid]);
+      console.log(data);
+      TransactionHelper.sendRawTransaction(
+        AppConfigs.nftAddressContract,
+        data,
+        ethers.utils.hexlify(0)
       );
-      const nft = await individualContract.mint(cid);
-      console.log('minted NFT', nft);
     } catch (error) {
       console.log(`${sTag} Minting NFT error: ${error.message}`);
     }

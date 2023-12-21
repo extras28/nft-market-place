@@ -118,13 +118,24 @@ function DashboardHomeScreen(props) {
     }
   }
 
-  useEffect(() => {
-    listingNFT();
-  }, []);
+  // useEffect(() => {
+  //   getListNFT();
+  // }, []);
+
+  const listNFTS = async () => {
+    console.log('hello');
+  };
+
   return (
     <div className="row">
       {testData.map((item, index) => (
-        <OSNFTCard key={index} image={item.image} price={item.price} title={item.title} />
+        <OSNFTCard
+          key={index}
+          image={item.image}
+          price={item.price}
+          title={item.title}
+          onClick={listNFTS}
+        />
       ))}
     </div>
   );

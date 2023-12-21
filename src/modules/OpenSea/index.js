@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from './features/Dashboard';
 import Minting from './features/Minting';
+import FuntionPage from './features/function';
 
 function OpenSea(props) {
   // MARK: --- Props ---
@@ -16,6 +17,7 @@ function OpenSea(props) {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/mint" element={<Minting />} />
+          <Route path="/function" element={<FuntionPage />} />
 
           <Route
             path="*"
