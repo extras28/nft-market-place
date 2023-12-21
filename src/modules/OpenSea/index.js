@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from './features/Dashboard';
 import Minting from './features/Minting';
 import FuntionPage from './features/function';
+import Loading from 'general/components/Loading';
 
 function OpenSea(props) {
   // MARK: --- Props ---

@@ -163,25 +163,22 @@ const Utils = {
    */
   getTheNFTMetadataIPFSUrl: (cid) => `https://gateway.pinata.cloud/ipfs/${cid}`,
 
-  sendTransaction: async (value, cid) => {
+  sendRawTransaction: async (to, data, value) => {
+    const rpcProvider = new ethers.providers.JsonRpcProvider(AppConfigs.rpcHttp);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const rpcProvider = new ethers.providers.JsonRpcProvider(
-      'https://eth-sepolia.public.blastapi.io'
-    );
     const gasPrice = await rpcProvider.getGasPrice();
-    let iface = new ethers.utils.Interface(abi);
-    const data = iface.encodeFunctionData('mint', [cid]);
+    console.log(gasPrice, value);
     const tx = [
       {
         from: accounts[0],
         gasLimit: ethers.utils.hexlify(300000),
         gasPrice: gasPrice.toHexString(),
-        to: AppConfigs.IndividualNFTs,
+        to,
         value,
         data,
       },
     ];
-    const transactionHash = await window.ethereum
+    await window.ethereum
       .request({
         method: 'eth_sendTransaction',
         params: tx,

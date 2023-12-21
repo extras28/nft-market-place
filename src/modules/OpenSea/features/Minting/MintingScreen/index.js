@@ -14,7 +14,7 @@ import { FileUploader } from 'react-drag-drop-files';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import './style.scss';
-import TransactionHelper from 'general/helpers/TransactionHelper';
+import Utils from 'general/utils/Utils';
 
 MintingScreen.propTypes = {};
 
@@ -63,11 +63,7 @@ function MintingScreen(props) {
       let iface = new ethers.utils.Interface(nftAddressContractAbi);
       const data = iface.encodeFunctionData('mint', [cid]);
       console.log(data);
-      TransactionHelper.sendRawTransaction(
-        AppConfigs.nftAddressContract,
-        data,
-        ethers.utils.hexlify(0)
-      );
+      Utils.sendRawTransaction(AppConfigs.nftAddressContract, data, ethers.utils.hexlify(0));
     } catch (error) {
       console.log(`${sTag} Minting NFT error: ${error.message}`);
     }

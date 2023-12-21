@@ -1,14 +1,12 @@
 // Toast
-import store from 'app/store';
 import AppToast from 'general/components/AppToast';
 import { Suspense, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 // router
-import GuestRoute from 'general/components/AppRoutes/GuestRoute';
 import PrivateRoute from 'general/components/AppRoutes/PrivateRoute';
 import KTPageError01 from 'general/components/OtherKeenComponents/KTPageError01';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import OpenSea from 'modules/OpenSea';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 // Load BS
 require('bootstrap/dist/js/bootstrap.min');

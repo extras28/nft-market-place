@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { ethers } from 'ethers';
+import Loading from 'general/components/Loading';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
 import * as typechain from 'nft-marketplace-project';
-import { ethers } from 'ethers';
+import { useState } from 'react';
 
 DashboardHomeScreen.propTypes = {};
 const testData = [
