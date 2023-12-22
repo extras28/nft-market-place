@@ -12,7 +12,10 @@ function OSNFTCard(props) {
   const { t } = useTranslation();
 
   return (
-    <div className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-8" onClick={onClick}>
+    <div
+      className="OSNFTCard cursor-pointer col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-8"
+      onClick={onClick}
+    >
       <div className="card-flyer">
         <div className="text-box position-relative">
           <div className="image-box">
@@ -23,7 +26,7 @@ function OSNFTCard(props) {
 
             <span className="d-flex align-items-center">
               <i className="fab fa-ethereum mr-4"></i>
-              <span>{`${Utils.formatNumber(price)} ETH`}</span>
+              <span>{`${price} ETH`}</span>
             </span>
           </div>
           <div className="position-absolute bottom-0 OSNFTCard_button overflow-hidden btn btn-primary w-100 rounded-top-0">

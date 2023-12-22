@@ -107,7 +107,10 @@ function KT01Header(props) {
                 </div>
               </div>
             ) : (
-              <div className="d-flex justify-content-center align-items-center">
+              <div
+                className="d-flex justify-content-center align-items-center cursor-pointer"
+                onClick={() => navigate('/opensea')}
+              >
                 <img className="h-60px w-150px" src={AppResource.images.logoWithText} />
               </div>
             )}

@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import abiMarketPlace from 'assets/abiMarketPlace.json';
 import abiNFTContract from 'assets/abi.json';
 import AppConfigs from 'general/constants/AppConfigs';
+import Utils from 'general/utils/Utils';
 
 const NFTcontractAddress = '0x430cb89B331a4A719E661E94EfEA72ac37f902b6';
 const nftMarketPlaceAddress = '0xec5808E2d86293c6b29f0eD4E9a77c8EfA28fEa8';
@@ -39,6 +40,7 @@ export default function index() {
     const contract = new ethers.Contract(nftContractAddress, abiNFTContract, rpc);
     const NFT_URI = await contract.tokenURI(ethers.utils.hexlify(tokenID));
     console.log(NFT_URI);
+    return Utils.getTheNFTMetadataIPFSUrl(NFT_URI);
   };
 
   const listNFT = async (to, tokenID, price) => {
@@ -121,10 +123,12 @@ export default function index() {
       </div>
 
       <div>
-        <button onClick={() => viewNFT(NFTcontractAddress, 1)}>viewNFT</button>
+        <button onClick={() => viewNFT(NFTcontractAddress, 6)}>viewNFT</button>
       </div>
       <div>
-        <button onClick={() => listNFT(nftMarketPlaceAddress, 3, 1000000n)}>listNFT</button>
+        <button onClick={() => listNFT(nftMarketPlaceAddress, 6, 10000000000000000n)}>
+          listNFT
+        </button>
       </div>
       <div>
         <button

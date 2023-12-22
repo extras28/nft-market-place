@@ -4,16 +4,16 @@ import { Route, Routes } from 'react-router-dom';
 import AppResource from 'general/constants/AppResource';
 import Empty from 'general/components/Empty';
 import { useTranslation } from 'react-i18next';
-import DashboardHomeScreen from './screens/DashboardHomeScreen';
+import AccountHomeScreen from './screens/AccountHomeScreen';
 
-Dashboard.propTypes = {};
+Account.propTypes = {};
 
-function Dashboard(props) {
+function Account(props) {
   // MARK --- Params ---
   const { t } = useTranslation();
   return (
     <Routes>
-      <Route path="*" element={<DashboardHomeScreen />} />
+      <Route path="*" element={<AccountHomeScreen />} />
 
       <Route
         path="*"
@@ -30,4 +30,4 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+export default Account;

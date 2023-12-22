@@ -2,11 +2,11 @@ import KT01BaseLayout from 'general/components/BaseLayout/KT01BaseLayout';
 import Empty from 'general/components/Empty';
 import AppResource from 'general/constants/AppResource';
 import { useTranslation } from 'react-i18next';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import Account from './features/Account';
 import Dashboard from './features/Dashboard';
 import Minting from './features/Minting';
 import FuntionPage from './features/function';
-import Loading from 'general/components/Loading';
 
 function OpenSea(props) {
   // MARK: --- Props ---
@@ -18,6 +18,7 @@ function OpenSea(props) {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/mint" element={<Minting />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/function" element={<FuntionPage />} />
 
           <Route

@@ -1,8 +1,10 @@
 import { ethers } from 'ethers';
 import Loading from 'general/components/Loading';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
+import AppConfigs from 'general/constants/AppConfigs';
+import TransactionHelper from 'general/helpers/TransactionHelper';
 import * as typechain from 'nft-marketplace-project';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 DashboardHomeScreen.propTypes = {};
 const testData = [
@@ -102,39 +104,55 @@ const sTag = '[DashboardHomeScreen]';
 function DashboardHomeScreen(props) {
   //MARK --- Patams ---
   const NFTMarketplace = '0x2a9860BD364761Dfa8410FA08917D0FFA8A8D4B5';
-  const IndividualNFTs = '0x1Fe3A78B9eD952Bff67a7267B4DeD000B3Db21D9';
   const [listNFT, setListNFT] = useState([]);
 
   // MARK --- Functions ---
   async function listingNFT() {
     try {
-      const web3provider = new ethers.providers.Web3Provider(window.ethereum);
-      const market = typechain.NFTMarketplace__factory.connect(NFTMarketplace, web3provider);
-      const NFTList = await market.getListedNFTs();
+      const rs = await TransactionHelper.getAllNFTs();
+      console.log(rs);
+      const NFTList = [];
+      for (const nft of rs) {
+        const tokenId = nft[1]._hex;
+        const decimalTokenId = parseInt(tokenId, 16);
+        if (!!decimalTokenId) {
+          const decimalPrice = parseInt(nft[4]._hex, 16);
+          console.log(decimalPrice);
+          const weiValue = BigInt(decimalPrice);
+          const ethPrice = parseFloat(weiValue) / 1e18;
 
-      console.log(JSON.parse(JSON.stringify(NFTList)));
+          const nftView = await TransactionHelper.viewNFT(
+            AppConfigs.nftAddressContract,
+            decimalTokenId
+          );
+          NFTList.push({
+            price: ethPrice,
+            view: nftView,
+            tokenId: decimalTokenId,
+            address: nft[0],
+          });
+        }
+      }
+
+      setListNFT(NFTList);
     } catch (error) {
       console.log(`${sTag} get list NFT error: ${error.message}`);
     }
   }
 
-  // useEffect(() => {
-  //   getListNFT();
-  // }, []);
-
-  const listNFTS = async () => {
-    console.log('hello');
-  };
+  useEffect(() => {
+    listingNFT();
+  }, []);
 
   return (
     <div className="row">
-      {testData.map((item, index) => (
+      {listNFT.map((item, index) => (
         <OSNFTCard
           key={index}
-          image={item.image}
+          image={item.view}
           price={item.price}
-          title={item.title}
-          onClick={listNFTS}
+          // title={item.title}
+          // onClick={listNFTS}
         />
       ))}
     </div>
