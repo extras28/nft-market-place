@@ -15,6 +15,9 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import './style.scss';
 import Utils from 'general/utils/Utils';
+import Loading from 'general/components/Loading';
+import ToastHelper from 'general/helpers/ToastHelper';
+import useRouter from 'hooks/useRouter';
 
 MintingScreen.propTypes = {};
 
@@ -27,6 +30,8 @@ function MintingScreen(props) {
   const [displayImage, setDisplayImage] = useState(null);
   const { t } = useTranslation();
   const [validationFile, setValidationFile] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // MARK --- Functions ---
   function handleChange(file) {
@@ -63,13 +68,16 @@ function MintingScreen(props) {
       let iface = new ethers.utils.Interface(nftAddressContractAbi);
       const data = iface.encodeFunctionData('mint', [cid]);
       console.log(data);
-      Utils.sendRawTransaction(AppConfigs.nftAddressContract, data, ethers.utils.hexlify(0));
+      await Utils.sendRawTransaction(AppConfigs.nftAddressContract, data, ethers.utils.hexlify(0));
+      ToastHelper.showSuccess(t('Your transaction has been send'));
+      router.navigate('/opensea');
     } catch (error) {
       console.log(`${sTag} Minting NFT error: ${error.message}`);
     }
   }
 
   async function handleSubmit(values) {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -91,11 +99,19 @@ function MintingScreen(props) {
     } catch (error) {
       console.log(`${sTag} Submit error: ${error.message}`);
     }
+    setLoading(false);
   }
 
   useEffect(() => {}, []);
   return (
     <div className="MintingScreen">
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center position-relative">
+          <div className="position-absolute">
+            <Loading />
+          </div>
+        </div>
+      ) : null}
       <h2 className="font-weight-bolder">Create an NFT </h2>
       <h4 className="mb-8">
         Once your item is minted you will not be able to change any of its information.

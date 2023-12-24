@@ -1,14 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './style.scss';
 import { useTranslation } from 'react-i18next';
-import Utils from 'general/utils/Utils';
+import PropTypes from 'prop-types';
 
-OSNFTCard.propTypes = {};
+import './style.scss';
+
+OSNFTCard.propTypes = {
+  price: PropTypes.number,
+  image: PropTypes.string,
+  title: PropTypes.string,
+  onClick: PropTypes.func,
+  isMine: PropTypes.bool,
+  buttonTitle: PropTypes.string,
+  address: PropTypes.string,
+};
+
+OSNFTCard.defaultProps = {
+  price: 0,
+  image: '',
+  title: '',
+  onClick: null,
+  isMine: false,
+  buttonTitle: 'Buy now',
+  address: '',
+};
 
 function OSNFTCard(props) {
   // MARK --- Params ---
-  const { price, image, title, onClick } = props;
+  const { price, image, title, onClick, isMine, buttonTitle, address } = props;
   const { t } = useTranslation();
 
   return (
@@ -23,15 +40,18 @@ function OSNFTCard(props) {
           </div>
           <div className="p-6">
             <h6 className="font-weight-bolder">{title}</h6>
+            <span>{address?.replace(/(.{7}).+(.{7})/, '$1...$2')}</span>
 
             <span className="d-flex align-items-center">
               <i className="fab fa-ethereum mr-4"></i>
               <span>{`${price} ETH`}</span>
             </span>
           </div>
-          <div className="position-absolute bottom-0 OSNFTCard_button overflow-hidden btn btn-primary w-100 rounded-top-0">
-            {t('Buy now')}
-          </div>
+          {!isMine ? (
+            <div className="position-absolute bottom-0 OSNFTCard_button overflow-hidden btn btn-primary w-100 rounded-top-0">
+              {t(buttonTitle)}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

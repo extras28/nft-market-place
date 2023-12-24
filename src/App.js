@@ -7,6 +7,7 @@ import PrivateRoute from 'general/components/AppRoutes/PrivateRoute';
 import KTPageError01 from 'general/components/OtherKeenComponents/KTPageError01';
 import OpenSea from 'modules/OpenSea';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import AccountListener from 'general/listeners/AccountListener';
 
 // Load BS
 require('bootstrap/dist/js/bootstrap.min');
@@ -65,6 +66,7 @@ function App() {
 
       {/* Toast */}
       <AppToast />
+      <AccountListener />
     </>
   );
 }

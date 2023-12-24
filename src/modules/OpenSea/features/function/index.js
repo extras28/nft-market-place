@@ -6,8 +6,8 @@ import abiNFTContract from 'assets/abi.json';
 import AppConfigs from 'general/constants/AppConfigs';
 import Utils from 'general/utils/Utils';
 
-const NFTcontractAddress = '0x430cb89B331a4A719E661E94EfEA72ac37f902b6';
-const nftMarketPlaceAddress = '0xec5808E2d86293c6b29f0eD4E9a77c8EfA28fEa8';
+const NFTcontractAddress = AppConfigs.nftAddressContract;
+const nftMarketPlaceAddress = AppConfigs.marketPlaceContract;
 const LISTING_FEE = 100000000000000n;
 
 export default function index() {
@@ -123,12 +123,10 @@ export default function index() {
       </div>
 
       <div>
-        <button onClick={() => viewNFT(NFTcontractAddress, 6)}>viewNFT</button>
+        <button onClick={() => viewNFT(NFTcontractAddress, 1)}>viewNFT</button>
       </div>
       <div>
-        <button onClick={() => listNFT(nftMarketPlaceAddress, 6, 10000000000000000n)}>
-          listNFT
-        </button>
+        <button onClick={() => listNFT(nftMarketPlaceAddress, 2, 100000000000000n)}>listNFT</button>
       </div>
       <div>
         <button
@@ -140,7 +138,7 @@ export default function index() {
         </button>
       </div>
       <div>
-        <button onClick={() => buyNFT(NFTcontractAddress, 1, 1000000n)}>Buy NFT</button>
+        <button onClick={() => buyNFT(NFTcontractAddress, 2, 100000000000000n)}>Buy NFT</button>
       </div>
       <div>
         <button onClick={() => resellNFT(nftMarketPlaceAddress, 1, 1000000n)}>resell NFT</button>

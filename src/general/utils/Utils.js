@@ -190,6 +190,35 @@ const Utils = {
         console.log(err);
       });
   },
+
+  getRandomImageLink: (width, height) => {
+    const size = width && height ? `/${width}/${height}` : null;
+    const randomImageLink = `https://random.imagecdn.app${size}`;
+    return randomImageLink;
+  },
+
+  ethToBigNumber: (eth) => {
+    // 1 ETH = 10^18 Wei
+    const weiPerEth = 1e18;
+
+    // Convert ETH to Wei
+    const wei = eth * weiPerEth;
+
+    return wei;
+  },
+
+  weiHexToEth: (weiHex) => {
+    // Convert hexadecimal Wei to decimal
+    const weiDecimal = parseInt(weiHex, 16);
+
+    // 1 ETH = 10^18 Wei
+    const weiPerEth = 1e18;
+
+    // Convert Wei to ETH
+    const eth = weiDecimal / weiPerEth;
+
+    return eth;
+  },
 };
 
 export default Utils;

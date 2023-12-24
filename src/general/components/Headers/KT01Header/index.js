@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const menuItems = [
   {
     text: 'Create',
-    path: 'opensea/mint',
+    path: 'mint',
     // subMenuItems: [
     //   { text: 'My Account', icon: AppResource.icons.keens.briefcase, path: 'opensea/mint' },
     //   { text: 'Task Manager', icon: AppResource.icons.keens.briefcase, path: '', label: '2' },
@@ -46,6 +46,10 @@ const menuItems = [
     //   },
     //   { text: 'Create New Project', icon: AppResource.icons.keens.spam, path: '' },
     // ],
+  },
+  {
+    text: 'Test function',
+    path: 'function',
   },
 ];
 
@@ -89,7 +93,7 @@ function KT01Header(props) {
       className="header header-fixed border-bottom"
       style={{ backgroundColor: 'rgb(18, 18, 18)' }}
     >
-      <div className="container-fluid container-xl d-flex align-items-stretch justify-content-between">
+      <div className="container-xl d-flex align-items-stretch justify-content-between">
         {/* Header menu wrapper */}
         <div id="kt_header_menu_wrapper" className="header-menu-wrapper header-menu-wrapper-left">
           {/* header menu */}
@@ -127,7 +131,7 @@ function KT01Header(props) {
                       className="menu-item menu-item-submenu menu-item-rel menu-item-open-dropdown"
                       data-menu-toggle="click"
                     >
-                      <div onClick={() => navigate('mint')} className="menu-link menu-toggle">
+                      <div onClick={() => navigate(item.path)} className="menu-link menu-toggle">
                         <span className="menu-text">{item.text}</span>
                         <i className="menu-arrow" />
                       </div>
@@ -235,17 +239,29 @@ function KT01Header(props) {
             )}
           </div>
         </div>
-        {isMintingScreen ? null : (
+        {/* {isMintingScreen ? null : (
           <div className="d-flex justify-content-center align-items-center rounded min-w-350px">
             <KeenSearchBarNoFormik className="w-100" placeholder={t('Search')} />
           </div>
-        )}
-        {/* Top bar */}
-        <div className="topbar">
-          {/* search */}
-          <div className="topbar-item ml-4">
-            <div className="d-flex align-items-center cursor-pointer">
-              <MetaMaskButton theme={'light'} color="white"></MetaMaskButton>
+        )} */}
+        <div className="d-flex flex-row justify-content-between align-items-center">
+          {/* Top bar */}
+          <div className="topbar">
+            {/* search */}
+            <div className="topbar-item ml-4">
+              <div className="d-flex align-items-center cursor-pointer">
+                <MetaMaskButton theme={'light'} color="white"></MetaMaskButton>
+              </div>
+            </div>
+          </div>
+
+          {/* avatar */}
+          <div className="app-navbar-item ms-2 ms-1 ms-lg-3 d-flex justify-content-center align-items-center">
+            <div
+              onClick={() => navigate('/opensea/account')}
+              className="cursor-pointer symbol symbol-20px symbol-md-20px"
+            >
+              <img src="https://preview.keenthemes.com/keen/demo1/assets/media/avatars/300-3.jpg" />
             </div>
           </div>
         </div>

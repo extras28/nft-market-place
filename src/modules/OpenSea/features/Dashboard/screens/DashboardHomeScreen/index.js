@@ -3,8 +3,10 @@ import Loading from 'general/components/Loading';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
 import AppConfigs from 'general/constants/AppConfigs';
 import TransactionHelper from 'general/helpers/TransactionHelper';
+import Utils from 'general/utils/Utils';
 import * as typechain from 'nft-marketplace-project';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 DashboardHomeScreen.propTypes = {};
 const testData = [
@@ -101,23 +103,24 @@ const testData = [
 ];
 
 const sTag = '[DashboardHomeScreen]';
+
 function DashboardHomeScreen(props) {
   //MARK --- Patams ---
-  const NFTMarketplace = '0x2a9860BD364761Dfa8410FA08917D0FFA8A8D4B5';
   const [listNFT, setListNFT] = useState([]);
+  const currentAccount = useSelector((state) => state?.auth?.current);
+  const [loading, setLoading] = useState(false);
 
   // MARK --- Functions ---
   async function listingNFT() {
+    setLoading(true);
     try {
       const rs = await TransactionHelper.getAllNFTs();
-      console.log(rs);
       const NFTList = [];
       for (const nft of rs) {
         const tokenId = nft[1]._hex;
         const decimalTokenId = parseInt(tokenId, 16);
         if (!!decimalTokenId) {
           const decimalPrice = parseInt(nft[4]._hex, 16);
-          console.log(decimalPrice);
           const weiValue = BigInt(decimalPrice);
           const ethPrice = parseFloat(weiValue) / 1e18;
 
@@ -125,11 +128,13 @@ function DashboardHomeScreen(props) {
             AppConfigs.nftAddressContract,
             decimalTokenId
           );
+
           NFTList.push({
             price: ethPrice,
             view: nftView,
             tokenId: decimalTokenId,
             address: nft[0],
+            seller: nft[2],
           });
         }
       }
@@ -138,6 +143,7 @@ function DashboardHomeScreen(props) {
     } catch (error) {
       console.log(`${sTag} get list NFT error: ${error.message}`);
     }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -146,12 +152,21 @@ function DashboardHomeScreen(props) {
 
   return (
     <div className="row">
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center position-relative">
+          <div className="position-absolute">
+            <Loading />
+          </div>
+        </div>
+      ) : null}
       {listNFT.map((item, index) => (
         <OSNFTCard
+          isMine={String(currentAccount).toUpperCase() === String(item.seller.toUpperCase())}
           key={index}
           image={item.view}
           price={item.price}
-          // title={item.title}
+          title={`#${item.tokenId}`}
+          address={item.address}
           // onClick={listNFTS}
         />
       ))}
