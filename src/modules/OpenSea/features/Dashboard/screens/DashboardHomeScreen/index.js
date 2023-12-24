@@ -1,11 +1,14 @@
 import { ethers } from 'ethers';
 import Loading from 'general/components/Loading';
+import OSModal from 'general/components/OpenSeaComponent/OSModal';
 import OSNFTCard from 'general/components/OpenSeaComponent/OSNFTCard';
 import AppConfigs from 'general/constants/AppConfigs';
+import ToastHelper from 'general/helpers/ToastHelper';
 import TransactionHelper from 'general/helpers/TransactionHelper';
 import Utils from 'general/utils/Utils';
 import * as typechain from 'nft-marketplace-project';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 DashboardHomeScreen.propTypes = {};
@@ -105,12 +108,15 @@ const testData = [
 const sTag = '[DashboardHomeScreen]';
 
 function DashboardHomeScreen(props) {
-  //MARK --- Patams ---
+  //MARK: --- Patams ---
   const [listNFT, setListNFT] = useState([]);
   const currentAccount = useSelector((state) => state?.auth?.current);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
+  const [showModalBuy, setShowModalBuy] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState(null);
 
-  // MARK --- Functions ---
+  // MARK: --- Functions ---
   async function listingNFT() {
     setLoading(true);
     try {
@@ -146,6 +152,21 @@ function DashboardHomeScreen(props) {
     setLoading(false);
   }
 
+  async function handleBuyNFT() {
+    try {
+      const params = { ...selectedNFT };
+      params.tokenId = Number(params.tokenId);
+      params.price = Utils.ethToBigNumber(Number(params.price));
+
+      await TransactionHelper.buyNFT(params.address, params.tokenId, params.price);
+      ToastHelper.showSuccess(t('Your transaction has been send'));
+      setShowModalBuy(false);
+    } catch (error) {
+      console.warn(`${sTag} buy NFT error: ${error.message}`);
+    }
+  }
+
+  // MARK: --- Hooks ---
   useEffect(() => {
     listingNFT();
   }, []);
@@ -167,9 +188,33 @@ function DashboardHomeScreen(props) {
           price={item.price}
           title={`#${item.tokenId}`}
           address={item.address}
-          // onClick={listNFTS}
+          onClick={() => {
+            setSelectedNFT({
+              address: item.address,
+              tokenId: item.tokenId,
+              price: item.price,
+            });
+            setShowModalBuy(true);
+          }}
         />
       ))}
+
+      <OSModal
+        titleModal={t('Resell your NFT')}
+        closeBtn={true}
+        show={showModalBuy}
+        onHide={() => setShowModalBuy(false)}
+        modalSize="md"
+        buttonNegative="Cancel"
+        buttonPositive="Yes"
+        handleSubmit={handleBuyNFT}
+        contentModal={
+          <div>
+            <span>{t('Are you sure to buy this NFT ')}</span>
+            <i className="fa-solid fa-question"></i>
+          </div>
+        }
+      />
     </div>
   );
 }

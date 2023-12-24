@@ -47,7 +47,7 @@ function AccountHomeScreen(props) {
       setShowModalListing(false);
       // router.navigate('/opensea');
     } catch (error) {
-      console.warn(`${sTag} list NFT erroe: ${error.message}`);
+      console.warn(`${sTag} list NFT error: ${error.message}`);
     }
     setLoading(false);
   }

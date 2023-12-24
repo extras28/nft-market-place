@@ -88,7 +88,22 @@ const TransactionHelper = {
       ethers.utils.hexlify(price),
     ]);
     console.log(data);
-    sendRawTransaction(AppConfigs.marketPlaceContract, data, ethers.utils.hexlify(LISTING_FEE));
+    TransactionHelper.sendRawTransaction(
+      AppConfigs.marketPlaceContract,
+      data,
+      ethers.utils.hexlify(LISTING_FEE)
+    );
+  },
+  buyNFT: async (from, tokenID, price) => {
+    const address = from ?? AppConfigs.nftAddressContract;
+    let iface = new ethers.utils.Interface(abiMarketPlace);
+    const data = iface.encodeFunctionData('buyNFT', [address, ethers.utils.hexlify(tokenID)]);
+    console.log(ethers.utils.hexlify(price));
+    TransactionHelper.sendRawTransaction(
+      AppConfigs.marketPlaceContract,
+      data,
+      ethers.utils.hexlify(price)
+    );
   },
 };
 
