@@ -47,10 +47,10 @@ const menuItems = [
     //   { text: 'Create New Project', icon: AppResource.icons.keens.spam, path: '' },
     // ],
   },
-  {
-    text: 'Test function',
-    path: 'function',
-  },
+  // {
+  //   text: 'Test function',
+  //   path: 'function',
+  // },
 ];
 
 function KT01Header(props) {

@@ -196,6 +196,7 @@ function DashboardHomeScreen(props) {
             });
             setShowModalBuy(true);
           }}
+          seller={item.seller}
         />
       ))}
 

@@ -32,6 +32,7 @@ function MintingScreen(props) {
   const [validationFile, setValidationFile] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [loadingTitle, setLoadingTitle] = useState('Loading');
 
   // MARK --- Functions ---
   function handleChange(file) {
@@ -48,6 +49,7 @@ function MintingScreen(props) {
   }
 
   async function uploadToPinata(formData) {
+    setLoadingTitle('Uploading to IPFS');
     try {
       const res = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
         maxBodyLength: 'Infinity',
@@ -56,7 +58,8 @@ function MintingScreen(props) {
           Authorization: `Bearer ${AppConfigs.pinataJWT}`,
         },
       });
-
+      ToastHelper.showSuccess('Uploaded to IPFS');
+      setLoadingTitle('Loading');
       return res.data;
     } catch (error) {
       console.log(`${sTag} Upload to Pindata error: ${error.message}`);
@@ -108,7 +111,7 @@ function MintingScreen(props) {
       {loading ? (
         <div className="d-flex justify-content-center align-items-center position-relative">
           <div className="position-absolute">
-            <Loading />
+            <Loading message={loadingTitle} />
           </div>
         </div>
       ) : null}

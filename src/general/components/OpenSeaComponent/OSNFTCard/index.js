@@ -25,7 +25,7 @@ OSNFTCard.defaultProps = {
 
 function OSNFTCard(props) {
   // MARK --- Params ---
-  const { price, image, title, onClick, isMine, buttonTitle, address } = props;
+  const { price, image, title, onClick, isMine, buttonTitle, address, seller } = props;
   const { t } = useTranslation();
 
   return (
@@ -40,7 +40,18 @@ function OSNFTCard(props) {
           </div>
           <div className="p-6">
             <h6 className="font-weight-bolder">{title}</h6>
-            <span>{address?.replace(/(.{7}).+(.{7})/, '$1...$2')}</span>
+            <p>
+              <span>Address: </span>
+
+              <span>{address?.replace(/(.{7}).+(.{7})/, '$1...$2')}</span>
+            </p>
+            {seller ? (
+              <p>
+                <span>Seller: </span>
+
+                <span>{seller?.replace(/(.{7}).+(.{7})/, '$1...$2')}</span>
+              </p>
+            ) : null}
 
             <span className="d-flex align-items-center">
               <i className="fab fa-ethereum mr-4"></i>
